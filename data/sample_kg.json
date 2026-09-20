@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {"id": "equip:X100", "type": "Equipment", "label": "Équipement X100", "text": "Contrôleur industriel X100, utilisé pour la régulation de process en usine."},
+    {"id": "fw:4.1", "type": "FirmwareVersion", "label": "Firmware 4.1", "text": "Version stable précédente du firmware X100."},
+    {"id": "fw:4.2", "type": "FirmwareVersion", "label": "Firmware 4.2", "text": "Mise à jour 4.2 : refonte du module de communication réseau et nouveau gestionnaire de certificats TLS."},
+    {"id": "change:tls_manager", "type": "Change", "label": "Nouveau gestionnaire TLS", "text": "La version 4.2 introduit un nouveau gestionnaire de certificats TLS qui exige un certificat racine mis à jour côté serveur de supervision."},
+    {"id": "error:542", "type": "ErrorCode", "label": "Error 542", "text": "Error 542 : échec de la négociation TLS entre l'équipement et le serveur de supervision (handshake refusé)."},
+    {"id": "cause:cert_outdated", "type": "Cause", "label": "Certificat racine obsolète", "text": "Le certificat racine installé sur le serveur de supervision est antérieur au nouveau schéma de validation introduit en 4.2, ce qui provoque le rejet du handshake TLS."},
+    {"id": "cause:clock_drift", "type": "Cause", "label": "Dérive de l'horloge système", "text": "Une dérive d'horloge de plus de 5 minutes entre l'équipement et le serveur peut aussi invalider le certificat et produire l'erreur 542."},
+    {"id": "fix:update_cert", "type": "FixProcedure", "label": "Mettre à jour le certificat racine", "text": "Déployer le nouveau certificat racine v3 sur le serveur de supervision via le portail d'administration, puis redémarrer le service de supervision."},
+    {"id": "fix:sync_ntp", "type": "FixProcedure", "label": "Resynchroniser via NTP", "text": "Forcer une resynchronisation NTP sur l'équipement (menu Diagnostics > Horloge > Resynchroniser) puis relancer la négociation TLS."},
+    {"id": "doc:release_notes_4.2", "type": "Document", "label": "Notes de version 4.2", "text": "Notes de version officielles de la mise à jour 4.2, section 'Sécurité réseau', décrivant le changement de gestionnaire TLS."},
+    {"id": "doc:kb_542", "type": "Document", "label": "Article KB-542", "text": "Article de la base de connaissances support décrivant les causes connues et procédures de résolution de l'Error 542."},
+
+    {"id": "equip:Y200", "type": "Equipment", "label": "Équipement Y200", "text": "Passerelle IoT Y200, non concernée par le module TLS de X100."},
+    {"id": "fw:2.0", "type": "FirmwareVersion", "label": "Firmware 2.0", "text": "Firmware stable de la passerelle Y200."},
+    {"id": "error:301", "type": "ErrorCode", "label": "Error 301", "text": "Error 301 : perte de connexion Wi-Fi sur la passerelle Y200."},
+    {"id": "cause:wifi_signal", "type": "Cause", "label": "Signal Wi-Fi faible", "text": "Signal Wi-Fi insuffisant entraînant des déconnexions répétées."},
+    {"id": "fix:relocate_ap", "type": "FixProcedure", "label": "Repositionner le point d'accès", "text": "Rapprocher le point d'accès Wi-Fi ou ajouter un répéteur."}
+  ],
+  "edges": [
+    {"source": "equip:X100", "target": "fw:4.1", "relation": "HAS_HAD_VERSION", "confidence": 1.0},
+    {"source": "equip:X100", "target": "fw:4.2", "relation": "HAS_VERSION", "confidence": 1.0},
+    {"source": "fw:4.2", "target": "change:tls_manager", "relation": "INTRODUCES", "confidence": 1.0},
+    {"source": "change:tls_manager", "target": "error:542", "relation": "CAN_CAUSE", "confidence": 0.9},
+    {"source": "error:542", "target": "cause:cert_outdated", "relation": "HAS_LIKELY_CAUSE", "confidence": 0.85},
+    {"source": "error:542", "target": "cause:clock_drift", "relation": "HAS_POSSIBLE_CAUSE", "confidence": 0.4},
+    {"source": "cause:cert_outdated", "target": "fix:update_cert", "relation": "RESOLVED_BY", "confidence": 0.9},
+    {"source": "cause:clock_drift", "target": "fix:sync_ntp", "relation": "RESOLVED_BY", "confidence": 0.8},
+    {"source": "error:542", "target": "doc:release_notes_4.2", "relation": "DOCUMENTED_IN", "confidence": 0.7},
+    {"source": "error:542", "target": "doc:kb_542", "relation": "DOCUMENTED_IN", "confidence": 0.95},
+    {"source": "change:tls_manager", "target": "doc:release_notes_4.2", "relation": "DOCUMENTED_IN", "confidence": 0.9},
+
+    {"source": "equip:Y200", "target": "fw:2.0", "relation": "HAS_VERSION", "confidence": 1.0},
+    {"source": "fw:2.0", "target": "error:301", "relation": "CAN_CAUSE", "confidence": 0.3},
+    {"source": "error:301", "target": "cause:wifi_signal", "relation": "HAS_LIKELY_CAUSE", "confidence": 0.8},
+    {"source": "cause:wifi_signal", "target": "fix:relocate_ap", "relation": "RESOLVED_BY", "confidence": 0.85}
+  ]
+}

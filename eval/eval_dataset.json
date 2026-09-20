@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "id": "q1",
+      "question": "Pourquoi mon équipement X100 affiche Error 542 après la mise à jour 4.2 ?",
+      "expected_cause": "cause:cert_outdated",
+      "expected_fix": "fix:update_cert",
+      "should_abstain": false
+    },
+    {
+      "id": "q2",
+      "question": "Error 542 sur le X100, que dois-je faire ?",
+      "expected_cause": "cause:cert_outdated",
+      "expected_fix": "fix:update_cert",
+      "should_abstain": false
+    },
+    {
+      "id": "q3",
+      "question": "Mon horloge dérive de plusieurs minutes et j'ai Error 542 sur le X100",
+      "expected_cause": "cause:clock_drift",
+      "expected_fix": "fix:sync_ntp",
+      "should_abstain": false
+    },
+    {
+      "id": "q4",
+      "question": "Le Y200 affiche Error 301, pourquoi ?",
+      "expected_cause": "cause:wifi_signal",
+      "expected_fix": "fix:relocate_ap",
+      "should_abstain": false
+    },
+    {
+      "id": "q5",
+      "question": "Passerelle Y200, déconnexions Wi-Fi répétées, Error 301",
+      "expected_cause": "cause:wifi_signal",
+      "expected_fix": "fix:relocate_ap",
+      "should_abstain": false
+    },
+    {
+      "id": "q6",
+      "question": "X100 firmware 4.2, négociation TLS refusée, Error 542",
+      "expected_cause": "cause:cert_outdated",
+      "expected_fix": "fix:update_cert",
+      "should_abstain": false
+    },
+    {
+      "id": "q7",
+      "question": "Error 999 inconnue sur mon appareil",
+      "expected_cause": null,
+      "expected_fix": null,
+      "should_abstain": true
+    },
+    {
+      "id": "q8",
+      "question": "Mon équipement ne s'allume plus, écran noir",
+      "expected_cause": null,
+      "expected_fix": null,
+      "should_abstain": true
+    },
+    {
+      "id": "q9",
+      "question": "Quel est le prix du X100 ?",
+      "expected_cause": null,
+      "expected_fix": null,
+      "should_abstain": true
+    },
+    {
+      "id": "q10",
+      "question": "Mise à jour 4.2 du X100, problème de sécurité réseau, certificat",
+      "expected_cause": "cause:cert_outdated",
+      "expected_fix": "fix:update_cert",
+      "should_abstain": false
+    }
+  ]
+}

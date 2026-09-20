@@ -1,0 +1,8 @@
+networkx>=3.2
+pytest>=8.0        # optionnel : pour exécuter tests/test_retriever.py avec pytest
+scikit-learn>=1.4  # pour la baseline d'évaluation TF-IDF (eval/)
+
+# Dépendances optionnelles pour le mode LLM (voir src/explainer.py::call_llm).
+# Décommenter selon le fournisseur choisi via la variable LLM_PROVIDER :
+# openai>=1.0        # si LLM_PROVIDER=openai
+# anthropic>=0.34.0  # si LLM_PROVIDER=anthropic
