@@ -18,6 +18,8 @@ from typing import Any
 
 import networkx as nx
 
+from nlp import extract_keywords
+
 
 @dataclass
 class Node:
@@ -40,7 +42,16 @@ class KnowledgeGraph:
 
         for n in data["nodes"]:
             kg.graph.add_node(
-                n["id"], type=n["type"], label=n["label"], text=n["text"]
+                n["id"],
+                type=n["type"],
+                label=n["label"],
+                text=n["text"],
+                # Mots-clés NLP pré-calculés une seule fois au chargement (et
+                # non à chaque requête) : le coût du traitement NLP (lemmatisation
+                # + POS tagging par spaCy) est ainsi payé une fois pour toutes,
+                # pas pour chaque question posée au système.
+                keywords_label=extract_keywords(f'{n["label"]} {n["id"]}'),
+                keywords_full=extract_keywords(f'{n["label"]} {n["id"]} {n["text"]}'),
             )
 
         for e in data["edges"]:
@@ -59,35 +70,26 @@ class KnowledgeGraph:
     def find_nodes_by_text(
         self, query: str, node_types: list[str] | None = None, search_full_text: bool = False
     ) -> list[str]:
-        """Recherche naïve par mot-clé pour l'ancrage d'entités (entity linking).
+        """Ancrage d'entités (entity linking) par recoupement de mots-clés.
+
+        Les mots-clés de la question et des nœuds sont extraits via
+        `nlp.extract_keywords` : lemmatisation + filtrage grammatical par
+        spaCy (mode NLP), avec repli automatique par regex si spaCy/le
+        modèle ne sont pas disponibles (voir `src/nlp.py`). Les mots-clés des
+        nœuds sont pré-calculés une seule fois à `from_json` (voir ci-dessus) ;
+        seuls ceux de la question sont calculés à la volée, à chaque appel.
 
         Par défaut, ne recherche que dans le *label* et l'*id* du nœud (pas
         dans le champ `text` libre), afin d'éviter les faux positifs quand
         un nœud mentionne un autre équipement dans sa description.
-        Dans une version production, on remplacerait ceci par une recherche
-        vectorielle (embeddings) ou un NER dédié.
         """
-        # Mots génériques à ignorer pour éviter les faux positifs (ex: "équipement"
-        # apparaît dans le label de TOUS les équipements et ne les distingue pas).
-        stopwords = {
-            "the", "and", "pour", "avec", "mon", "ma", "mes", "les", "des",
-            "une", "un", "du", "de", "la", "le", "apres", "après", "mise",
-            "jour", "affiche", "pourquoi", "equipement", "équipement", "equipment",
-        }
-        query_tokens = {
-            tok for tok in _tokenize(query.lower()) if len(tok) > 2 and tok not in stopwords
-        }
+        query_keywords = extract_keywords(query)
         matches = []
         for node_id, d in self.graph.nodes(data=True):
             if node_types and d["type"] not in node_types:
                 continue
-            haystack = f'{d["label"]} {node_id}'.lower()
-            if search_full_text:
-                haystack += f' {d["text"]}'.lower()
-            haystack_tokens = {
-                tok for tok in _tokenize(haystack) if tok not in stopwords
-            }
-            if query_tokens & haystack_tokens:
+            haystack_keywords = d["keywords_full"] if search_full_text else d["keywords_label"]
+            if query_keywords & haystack_keywords:
                 matches.append(node_id)
         return matches
 
@@ -95,9 +97,3 @@ class KnowledgeGraph:
         """Retourne les arêtes sortantes (target, relation, confidence)."""
         for _, target, data in self.graph.out_edges(node_id, data=True):
             yield target, data["relation"], data["confidence"]
-
-
-def _tokenize(text: str) -> list[str]:
-    import re
-
-    return re.findall(r"[a-zA-Z0-9àâäéèêëïîôöùûüç]+", text)

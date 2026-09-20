@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="graphrag-support" version="24.7.0">
   <diagram id="graphrag-architecture-methods" name="Architecture GraphRAG">
-    <mxGraphModel dx="700" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="660" pageHeight="820" math="0" shadow="0">
+    <mxGraphModel dx="700" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -17,12 +17,20 @@
 
         <!-- ===== TRAITEMENT : methode exacte, aucune ambiguite ===== -->
 
-        <mxCell id="p1" value="&lt;b&gt;1. Extraction d'entites&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Methode : expressions regulieres uniquement&lt;br&gt;(regex Python &lt;i&gt;re&lt;/i&gt;) sur code erreur et version.&lt;br&gt;&lt;b&gt;Aucun NLP, aucun modele.&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="p1" value="&lt;b&gt;1. Extraction code erreur / version&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Methode : regex uniquement (motifs numeriques).&lt;br&gt;Techno : Python (re).&lt;br&gt;&lt;b&gt;Aucun NLP (non pertinent ici).&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="20" y="150" width="560" height="85" as="geometry" />
         </mxCell>
 
-        <mxCell id="p2" value="&lt;b&gt;2. Ancrage + recherche dans le graphe&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Methode : correspondance lexicale par tokens&lt;br&gt;(bag-of-words + mots vides filtres) puis parcours&lt;br&gt;en profondeur borne (DFS). Bibliotheque : NetworkX.&lt;br&gt;&lt;b&gt;Aucun NLP, aucun modele.&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="p2" value="&lt;b&gt;2. Ancrage sur le graphe (NLP)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Methode : lemmatisation + POS tagging (spaCy&lt;br&gt;fr_core_news_sm), mots-cles pre-calcules,&lt;br&gt;puis parcours DFS borne sur le graphe.&lt;br&gt;Repli regex si spaCy indisponible.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="20" y="255" width="560" height="95" as="geometry" />
+        </mxCell>
+
+        <!-- Module NLP mis en evidence comme composant logiciel distinct (src/nlp.py) -->
+        <mxCell id="nlpmod" value="&lt;b&gt;Module NLP&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;src/nlp.py&lt;br&gt;spaCy fr_core_news_sm&lt;br&gt;(repli regex si absent)&lt;/font&gt;" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="610" y="270" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_nlp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#9673a6;" edge="1" parent="1" source="nlpmod" target="p2">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <mxCell id="p3" value="&lt;b&gt;3. Classement des resultats&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Methode : calcul arithmetique - score = produit&lt;br&gt;des confiances des arcs du chemin, puis tri.&lt;br&gt;&lt;b&gt;Aucun NLP, aucun modele.&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
@@ -31,6 +39,14 @@
 
         <mxCell id="p4" value="&lt;b&gt;4. Generation de la reponse&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Mode par defaut : gabarit Python (f-strings),&lt;br&gt;&lt;b&gt;aucun modele&lt;/b&gt;.&lt;br&gt;Mode optionnel (LLM_PROVIDER) : &lt;b&gt;gpt-4o-mini&lt;/b&gt;&lt;br&gt;(OpenAI) ou &lt;b&gt;claude-sonnet-4-6&lt;/b&gt; (Anthropic),&lt;br&gt;modele configurable via LLM_MODEL.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="20" y="475" width="560" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Module de generation mis en evidence comme composant logiciel distinct (src/explainer.py) -->
+        <mxCell id="genmod" value="&lt;b&gt;Module Generation&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;src/explainer.py&lt;br&gt;call_llm() optionnel :&lt;br&gt;gpt-4o-mini / claude-sonnet-4-6&lt;/font&gt;" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="610" y="495" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_gen" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#9673a6;" edge="1" parent="1" source="genmod" target="p4">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
         <!-- ===== SORTIES ===== -->
@@ -45,6 +61,11 @@
 
         <mxCell id="out3" value="Sources citees&#10;(tracabilite)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;" vertex="1" parent="1">
           <mxGeometry x="470" y="630" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Note methodologique sur l'explicabilite : reflete la section dediee du README -->
+        <mxCell id="xai_note" value="&lt;b&gt;Methode d'explicabilite : traçabilite de chemin de graphe (explainable by design)&lt;/b&gt;&lt;br&gt;Chaque sortie est extraite directement d'une chaine de preuve (noeuds + relations traversees) --&lt;br&gt;PAS une approximation post-hoc de type SHAP / LIME / attention. Fidelite garantie par construction&lt;br&gt;en mode local (verifiee par test automatise) ; non garantie en mode LLM (instruction de prompt seule)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;verticalAlign=middle;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="720" width="620" height="70" as="geometry" />
         </mxCell>
 
         <!-- ===== FLECHES ===== -->

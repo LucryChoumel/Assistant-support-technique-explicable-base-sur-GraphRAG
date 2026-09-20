@@ -1,0 +1,246 @@
+{
+  "with_nlp": {
+    "cause_accuracy": 0.8,
+    "fix_accuracy": 0.9,
+    "hallucination_rate": 0.3333333333333333,
+    "rows": [
+      {
+        "id": "q1",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "fw:4.2",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q2",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q3",
+        "expected_cause": "cause:clock_drift",
+        "expected_fix": "fix:sync_ntp",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q4",
+        "expected_cause": "cause:wifi_signal",
+        "expected_fix": "fix:relocate_ap",
+        "should_abstain": false,
+        "predicted_cause": "cause:wifi_signal",
+        "predicted_fix": "fix:relocate_ap",
+        "anchored": [
+          "error:301",
+          "equip:Y200"
+        ]
+      },
+      {
+        "id": "q5",
+        "expected_cause": "cause:wifi_signal",
+        "expected_fix": "fix:relocate_ap",
+        "should_abstain": false,
+        "predicted_cause": "cause:wifi_signal",
+        "predicted_fix": "fix:relocate_ap",
+        "anchored": [
+          "error:301",
+          "equip:Y200"
+        ]
+      },
+      {
+        "id": "q6",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "fw:4.2",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q7",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": null,
+        "predicted_fix": null,
+        "anchored": []
+      },
+      {
+        "id": "q8",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": null,
+        "predicted_fix": null,
+        "anchored": []
+      },
+      {
+        "id": "q9",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": null,
+        "anchored": [
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q10",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "fw:4.2",
+          "equip:X100"
+        ]
+      }
+    ]
+  },
+  "without_nlp": {
+    "cause_accuracy": 0.8,
+    "fix_accuracy": 0.9,
+    "hallucination_rate": 0.3333333333333333,
+    "rows": [
+      {
+        "id": "q1",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "fw:4.2",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q2",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q3",
+        "expected_cause": "cause:clock_drift",
+        "expected_fix": "fix:sync_ntp",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q4",
+        "expected_cause": "cause:wifi_signal",
+        "expected_fix": "fix:relocate_ap",
+        "should_abstain": false,
+        "predicted_cause": "cause:wifi_signal",
+        "predicted_fix": "fix:relocate_ap",
+        "anchored": [
+          "error:301",
+          "equip:Y200"
+        ]
+      },
+      {
+        "id": "q5",
+        "expected_cause": "cause:wifi_signal",
+        "expected_fix": "fix:relocate_ap",
+        "should_abstain": false,
+        "predicted_cause": "cause:wifi_signal",
+        "predicted_fix": "fix:relocate_ap",
+        "anchored": [
+          "error:301",
+          "equip:Y200"
+        ]
+      },
+      {
+        "id": "q6",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "error:542",
+          "fw:4.2",
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q7",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": null,
+        "predicted_fix": null,
+        "anchored": []
+      },
+      {
+        "id": "q8",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": null,
+        "predicted_fix": null,
+        "anchored": []
+      },
+      {
+        "id": "q9",
+        "expected_cause": null,
+        "expected_fix": null,
+        "should_abstain": true,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": null,
+        "anchored": [
+          "equip:X100"
+        ]
+      },
+      {
+        "id": "q10",
+        "expected_cause": "cause:cert_outdated",
+        "expected_fix": "fix:update_cert",
+        "should_abstain": false,
+        "predicted_cause": "cause:cert_outdated",
+        "predicted_fix": "fix:update_cert",
+        "anchored": [
+          "fw:4.2",
+          "equip:X100"
+        ]
+      }
+    ]
+  }
+}

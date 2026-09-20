@@ -1,6 +1,17 @@
 networkx>=3.2
 pytest>=8.0        # optionnel : pour exécuter tests/test_retriever.py avec pytest
 scikit-learn>=1.4  # pour la baseline d'évaluation TF-IDF (eval/)
+spacy>=3.8         # NLP pour l'ancrage d'entités (lemmatisation + POS tagging)
+
+# Le modèle français doit être installé séparément (poids ~15 Mo, non inclus
+# dans le paquet spacy). Deux méthodes équivalentes :
+#   python -m spacy download fr_core_news_sm
+# ou, si l'environnement bloque les installations pip standard :
+#   pip install https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.8.0/fr_core_news_sm-3.8.0-py3-none-any.whl
+#
+# Si ce modèle n'est pas installé, src/nlp.py bascule automatiquement sur un
+# repli par expressions régulières (voir la docstring de ce module) : le
+# projet reste utilisable sans cette dépendance, avec une précision moindre.
 
 # Dépendances optionnelles pour le mode LLM (voir src/explainer.py::call_llm).
 # Décommenter selon le fournisseur choisi via la variable LLM_PROVIDER :

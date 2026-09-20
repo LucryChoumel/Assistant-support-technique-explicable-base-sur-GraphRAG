@@ -1,4 +1,4 @@
-# Explainable Enterprise GraphRAG Assistant — Support Technique
+# Explainable Enterprise GraphRAG Assistant
 
 Assistant de support technique basé sur **GraphRAG** (Graph-based Retrieval-Augmented
 Generation) : au lieu de faire du RAG classique sur des chunks de texte non structurés,
@@ -51,8 +51,8 @@ Le système suit un pipeline simple : **entrées** (distinctes selon leur nature
 ```mermaid
 flowchart TD
     subgraph ENTREES["ENTRÉES"]
-        IN1["💬 Question du client (texte)"]
-        IN2["📄 Graphe de connaissances (fichier .json)"]
+        IN1[" Question du client (texte)"]
+        IN2[" Graphe de connaissances (fichier .json)"]
     end
 
     IN1 --> P1["1. Extraire les éléments clés de la question<br/>(équipement, erreur, version)"]
