@@ -66,23 +66,6 @@ flowchart TD
     P4 --> OUT3["Sources citées (traçabilité)"]
 ```
 
-
-### Pistes pour enrichir le NLP dans une suite de ce travail
-
-L'extraction d'entités actuelle (étape 1) et l'ancrage (étape 2) sont les
-points les plus simplistes du pipeline et les premiers candidats à une
-amélioration par NLP :
-- Un modèle de **NER** (ex. spaCy `fr_core_news_lg`, ou un modèle Transformer
-  affiné pour le domaine technique) à la place des regex, pour reconnaître les
-  variantes de formulation (fautes de frappe, synonymes de modèle d'équipement).
-- Des **embeddings de phrases** (ex. `sentence-transformers`) pour l'ancrage,
-  en remplacement de la correspondance lexicale par tokens, afin de gérer les
-  reformulations sémantiquement proches mais lexicalement différentes.
-
-Ces pistes ne sont **pas implémentées** dans ce prototype ; elles sont
-mentionnées ici pour situer précisément le périmètre actuel et les
-prolongements possibles.
-
 ## Évaluation quantitative
 
 Pour objectiver l'apport du GraphRAG plutôt que de l'affirmer sans preuve,
@@ -172,26 +155,6 @@ de confiance** utilisé pour classer les explications.
 - **Maintenabilité en entreprise** : le graphe peut être enrichi indépendamment par
   les équipes support (ajout de nouvelles causes/procédures) sans ré-entraîner de modèle.
 
-## Structure du projet
-
-```
-graphrag-support/
-├── data/
-│   └── sample_kg.json      # Graphe de connaissances d'exemple
-├── src/
-│   ├── kg.py                # Chargement et requêtes sur le graphe (networkx)
-│   ├── retriever.py          # Extraction d'entités + parcours de graphe (BFS borné)
-│   ├── explainer.py           # Génération de la réponse (gabarit local ou LLM générique)
-│   └── app.py                  # CLI interactive
-├── tests/
-│   └── test_retriever.py     # Tests unitaires (extraction + récupération)
-├── eval/
-│   ├── eval_dataset.json      # 10 questions annotées (7 positives + 3 abstention)
-│   ├── baseline_tfidf.py       # Baseline RAG vectoriel classique (TF-IDF)
-│   └── run_evaluation.py        # Évaluation comparative GraphRAG vs baseline
-├── requirements.txt
-└── README.md
-```
 
 ## Installation
 
