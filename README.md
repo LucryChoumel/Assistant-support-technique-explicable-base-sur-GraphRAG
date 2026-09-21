@@ -66,13 +66,6 @@ flowchart TD
     P4 --> OUT3["Sources citées (traçabilité)"]
 ```
 
-Un diagramme éditable équivalent est disponible dans `docs/architecture.drawio`
-(à ouvrir sur [app.diagrams.net](https://app.diagrams.net) ou dans l'extension
-VS Code draw.io) : chaque entrée y a son propre pictogramme (bulle de texte
-pour la question, icône fichier pour le graphe), les 4 étapes de traitement
-sont enchaînées dans l'ordre avec leur méthode et leur technologie, et les
-3 sorties sont représentées séparément.
-
 
 ### Pistes pour enrichir le NLP dans une suite de ce travail
 
